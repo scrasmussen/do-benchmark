@@ -31,7 +31,10 @@ $1 ~ /^"SAXPY_DO_CONCURRENT$/ {
     saxpydoconcurrent=$7
 }
 
+$1 ~ /^"SAXPY_DO_OMP$/ {
+    saxpydoomp=$7
+}
 
 END {
-    printf "%s;%s;%s\n", saxpy, saxpydo, saxpydoconcurrent >> file
+    printf "%s;%s;%s;%s\n", saxpy, saxpydo, saxpydoconcurrent, saxpydoomp >> file
 }
