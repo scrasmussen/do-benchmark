@@ -14,13 +14,14 @@ export TAU_MAKEFILE=/apps/software/TAU/2.27-foss-2018a/x86_64/lib/Makefile.tau-p
 file=saxpy_omp
 echo "-----------------------omp num threads = ${OMP_NUM_THREADS}"
 
-fflag="-g -O3"
-output=outputSaxpyO0.txt
+optimization="-O0"
+fflag="-g ${optimization}"
+output=outputSaxpy${optimization}.txt
 rm -f ${output}
 echo  "tau_f90.sh ${fflag} -DSETN=n -DSETRUN=10000 ${file}.F90 -o ${file}.exe" >> ${output}
 echo ";SAXPY;SAXPY_DO;SAXPY_DO_CONCURRENT;SAXPY_DO_OMP" >> ${output}
-# for (( i=1; i<=4000000; i+=50000 ))
-for (( i=1; i<=4; i+=50000 ))
+for (( i=1; i<=4000000; i+=50000 ))
+# for (( i=1; i<=4; i+=50000 ))
 do
     if [ $i -eq 1 ]; then
     	let n=1
@@ -32,19 +33,19 @@ do
     run $cmd
     run "./${file}.exe"
     printf "${n};" >> ${output}
-    export AWK_OUTPUT=${output}
-    run "./extractInfoOMP.awk profile.0.0.0"
+    run "./extractInfoOMP.awk profile.0.0.0 ${output}"
     run "rm -f ${file}.exe"
 done
 
 
-fflag="-g -O3"
-output=outputSaxpyO3.txt
+optimization="-O3"
+fflag="-g ${optimization}"
+output=outputSaxpy${optimization}.txt
 rm -f ${output}
 echo  "tau_f90.sh ${fflag} -DSETN=n -DSETRUN=10000 ${file}.F90 -o ${file}.exe" >> ${output}
 echo ";SAXPY;SAXPY_DO;SAXPY_DO_CONCURRENT;SAXPY_DO_OMP" >> ${output}
-# for (( i=1; i<=4000000; i+=50000 ))
-for (( i=1; i<=4; i+=50000 ))
+for (( i=1; i<=4000000; i+=50000 ))
+# for (( i=1; i<=4; i+=50000 ))
 do
     if [ $i -eq 1 ]; then
     	let n=1
@@ -56,8 +57,7 @@ do
     run $cmd
     run "./${file}.exe"
     printf "${n};" >> ${output}
-    export AWK_OUTPUT=${output}
-    run "./extractInfoOMP.awk profile.0.0.0"
+    run "./extractInfoOMP.awk profile.0.0.0 ${output}"
     run "rm -f ${file}.exe"
 done
 
