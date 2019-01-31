@@ -48,7 +48,6 @@ subroutine saxpy(X,Y,a,n)
 end subroutine saxpy
 
 program run_saxpy
-  ! use omp_lib
   implicit none
   integer, parameter :: n=SETN, RUN=SETRUN
   integer :: i
@@ -61,28 +60,22 @@ program run_saxpy
   call random_seed()
   call random_number(a)
 
-  ! nthreads = OMP_GET_NUM_THREADS()
-
   do i=1,RUN
      call random_number(X)
      call random_number(Y)
      call saxpy(X,Y,a,n)
-     ! print *, "fin saxpy"
 
      call random_number(X)
      call random_number(Y)
      call saxpy_do(X,Y,a,n)
-     ! print *, "fin saxpy_do"
 
      call random_number(X)
      call random_number(Y)
      call saxpy_do_concurrent(X,Y,a,n)
-     ! print *, "fin saxpy_do_concurrent"
 
      call random_number(X)
      call random_number(Y)
      call saxpy_do_omp(X,Y,a,n)
-     ! print *, "fin saxpy_do_concurrent"
   end do
   print *, "===Fin==="
 end program run_saxpy
