@@ -14,7 +14,7 @@ function program {
     fflag="-g ${optimization}"
     output=outputSaxpy${optimization}.txt
     rm -f ${output}
-    echo  "tau_f90.sh ${fflag} -DSETN=n -DSETRUN=10000 ${file}.F90 -o ${file}.exe" >> ${output}
+    echo  "tau_f90.sh ${fflag} -DSETN=n -DSETRUN=10000 ${file}.F90 tools.o -o ${file}.exe" >> ${output}
     echo ";SAXPY;SAXPY_DO;SAXPY_DO_CONCURRENT;SAXPY_DO_OMP" >> ${output}
     # for (( i=1; i<=4000000; i+=50000 ))
 	for (( i=1; i<=4; i+=50000 ))
@@ -29,7 +29,7 @@ function program {
 	run $cmd
 	run "./${file}.exe"
 	printf "${n};" >> ${output}
-	run "./extract/extractInfo${extract}.awk profile.0.0.0 ${output}"
+	run "./extract/extractInfo${file}.awk profile.0.0.0 ${output}"
 	run "rm -f ${file}.exe"
     done
 }
@@ -44,9 +44,6 @@ for arg in "$@"; do
     case $arg in
 	-file=*)
 	    file=${arg#"-file="}
-	    ;;
-	-extract=*)
-	    extract=${arg#"-extract="}
 	    extract=${extract^}
 	    ;;
 	-O0|-O1|-O2|-O3)
