@@ -7,7 +7,7 @@
 ## If more than 16 cpus are required then select multiple chunks of 16
 #PBS -l select=1:ncpus=16:mpiprocs=16
 #PBS -q half_hour
-# {half,one}_hour, {half,one,two,five,ten}_day, gpu
+## {half,one}_hour, {half,one,two,five,ten}_day, gpu, debug
 #PBS -m n
 #PBS -M s.rasmussen@cranfield.ac.uk
 ## ====================================
@@ -35,10 +35,14 @@ export I_MPI_ADJUST_ALLREDUCE=5
 module load tau
 export OMP_NUM_THREADS=${cpus}
 ## STEP 6:
+echo "================START================"
 echo "number of cpus = ${cpus}"
-./compileRunOMP.sh
+echo "---ARTLESS--- add CPUBURN"
+# timeout 15m cpuburn
+./compileRunOMP.sh -file=saxpy_omp -O3
+./compileRunOMP.sh -file=saxpy_omp -O0
+
 ## Tidy up the log directory
 ## DO NOT CHANGE THE LINE BELOW
 ## ============================
 rm $PBS_O_WORKDIR/$PBS_JOBID
-#
