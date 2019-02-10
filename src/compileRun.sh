@@ -29,7 +29,7 @@ function program {
 	run $cmd
 	run "./${file}.exe"
 	printf "${n};" >> ${output}
-	run "./extractInfo${extract}.awk profile.0.0.0 ${output}"
+	run "./extract/extractInfo${extract}.awk profile.0.0.0 ${output}"
 	run "rm -f ${file}.exe"
     done
 }
