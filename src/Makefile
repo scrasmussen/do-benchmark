@@ -51,3 +51,6 @@ awk:
 
 clean:
 	rm -f *~ *.o *.exe rose*.F90 a.out *.pomp.* profile.* *.inst.* *.pp.* *.pdb *.opari.* *.continue.*
+
+cleantxt: clean
+	rm -f *.txt
