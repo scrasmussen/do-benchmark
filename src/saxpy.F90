@@ -48,9 +48,10 @@ subroutine saxpy(X,Y,a,n)
 end subroutine saxpy
 
 program run_saxpy
+  use tools
   implicit none
   integer, parameter :: n=SETN, RUN=SETRUN
-  integer :: i
+  integer :: i, count
   real, dimension(n) :: X,Y
   real :: a
 
@@ -61,20 +62,25 @@ program run_saxpy
   call random_number(a)
 
   do i=1,RUN
+     count = 0
      call random_number(X)
      call random_number(Y)
+     call clearCache(count)
      call saxpy(X,Y,a,n)
 
      call random_number(X)
      call random_number(Y)
+     call clearCache(count)
      call saxpy_do(X,Y,a,n)
 
      call random_number(X)
      call random_number(Y)
+     call clearCache(count)
      call saxpy_do_concurrent(X,Y,a,n)
 
      call random_number(X)
      call random_number(Y)
+     call clearCache(count)
      call saxpy_do_omp(X,Y,a,n)
   end do
   print *, "===Fin==="
