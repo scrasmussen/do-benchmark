@@ -9,6 +9,23 @@ subroutine saxpy_do_concurrent(X,Y,a,n)
   end do
 end subroutine saxpy_do_concurrent
 
+subroutine saxpy_do_omp(X,Y,a,n)
+  use omp_lib
+  implicit none
+  real, intent(IN) :: X(n), a
+  real, intent(INOUT) :: Y(n)
+  integer, intent(IN) :: n
+  integer :: i, w
+  integer :: tid
+!$OMP PARALLEL DO
+  do i=1,n
+     ! tid = omp_get_thread_num()
+     ! print *, "tid =",tid
+     Y(i) = a*X(i) + Y(i)
+  end do
+!$OMP END PARALLEL DO
+end subroutine saxpy_do_omp
+
 subroutine saxpy_do(X,Y,a,n)
   implicit none
   real, intent(IN) :: X(n), a
@@ -55,6 +72,10 @@ program run_saxpy
      call random_number(X)
      call random_number(Y)
      call saxpy_do_concurrent(X,Y,a,n)
+
+     call random_number(X)
+     call random_number(Y)
+     call saxpy_do_omp(X,Y,a,n)
   end do
   print *, "===Fin==="
 end program run_saxpy
