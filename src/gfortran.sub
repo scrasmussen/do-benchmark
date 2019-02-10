@@ -39,8 +39,8 @@ echo "================START================"
 echo "number of cpus = ${cpus}"
 echo "---ARTLESS--- add CPUBURN"
 # timeout 15m cpuburn
-./compileRunOMP.sh -file=saxpy_omp -O3
-./compileRunOMP.sh -file=saxpy_omp -O0
+./compileRunOMP.sh -file=saxpy_omp -extract=saxpy -O3
+./compileRunOMP.sh -file=saxpy_omp -extract=saxpy -O0
 
 ## Tidy up the log directory
 ## DO NOT CHANGE THE LINE BELOW
