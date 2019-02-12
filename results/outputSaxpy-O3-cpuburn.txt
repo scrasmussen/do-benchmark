@@ -1,4 +1,4 @@
-tau_f90.sh -g -O3 -DSETN=n -DSETRUN=10000 saxpy.F90 tools.o -o saxpy.exe
+tau_f90.sh -g -O3 -DSETN=n -DSETRUN=1000 saxpy.F90 tools.o -o saxpy.exe
 ;SAXPY;SAXPY_DO;SAXPY_DO_CONCURRENT;SAXPY_DO_OMP
 1;207;215;186;137765
 50000;23725;22881;22863;152394
