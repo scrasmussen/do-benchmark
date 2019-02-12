@@ -50,7 +50,7 @@ awk:
 	./extractInfo.awk
 
 clean:
-	rm -f *~ *.o *.exe rose*.F90 a.out *.pomp.* profile.* *.inst.* *.pp.* *.pdb *.opari.* *.continue.*
+	rm -f *~ *.o *.exe rose*.F90 a.out *.pomp.* profile.* *.inst.* *.pp.* *.pdb *.opari.* *.continue.* *.mod
 
 cleantxt: clean
 	rm -f *.txt

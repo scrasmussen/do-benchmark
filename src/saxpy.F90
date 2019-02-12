@@ -50,7 +50,7 @@ end subroutine saxpy
 program run_saxpy
   use tools
   implicit none
-  integer, parameter :: n=SETN, RUN=SETRUN
+  integer, parameter :: n=SETN, iter=SETLOOP
   integer :: i, count
   real, dimension(n) :: X,Y
   real :: a
@@ -61,7 +61,7 @@ program run_saxpy
   call random_seed()
   call random_number(a)
 
-  do i=1,RUN
+  do i=1,iter
      count = 0
      call random_number(X)
      call random_number(Y)

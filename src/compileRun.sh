@@ -9,15 +9,14 @@ function run {
 }
 
 function program {
-    echo "ARTLESS"
-    exit 1
     fflag="-g ${optimization}"
-    output=outputSaxpy${optimization}.txt
+    output=output${extract}${optimization}.txt
+    loop_count=1000
     rm -f ${output}
-    echo  "tau_f90.sh ${fflag} -DSETN=n -DSETRUN=10000 ${file}.F90 tools.o -o ${file}.exe" >> ${output}
+    echo  "tau_f90.sh ${fflag} -DSETN=n -DLOOPCOUNT=${loop_count} ${file}.F90 tools.o -o ${file}.exe" >> ${output}
     echo ";SAXPY;SAXPY_DO;SAXPY_DO_CONCURRENT;SAXPY_DO_OMP" >> ${output}
-    # for (( i=1; i<=4000000; i+=50000 ))
-	for (( i=1; i<=4; i+=50000 ))
+    for (( i=1; i<=4000000; i+=50000 ))
+	# for (( i=500; i<=1000; i+=100 ))
     do
 	if [ $i -eq 1 ]; then
     	    let n=1
@@ -25,11 +24,11 @@ function program {
     	    let n=$i-1
 	fi
 
-	cmd="tau_f90.sh ${fflag} -DSETN=${n} -DSETRUN=10000 ${file}.F90 -o ${file}.exe"
+	cmd="tau_f90.sh ${fflag} -DSETN=${n} -DSETLOOP=${loop_count} tools.o ${file}.F90 -o ${file}.exe"
 	run $cmd
 	run "./${file}.exe"
 	printf "${n};" >> ${output}
-	run "./extract/extractInfo${file}.awk profile.0.0.0 ${output}"
+	run "./extract/extractInfo${extract}.awk profile.0.0.0 ${output}"
 	run "rm -f ${file}.exe"
     done
 }
@@ -44,7 +43,7 @@ for arg in "$@"; do
     case $arg in
 	-file=*)
 	    file=${arg#"-file="}
-	    extract=${extract^}
+	    extract=${file^}
 	    ;;
 	-O0|-O1|-O2|-O3)
 	    optimization=$arg

@@ -6,7 +6,7 @@
 ## The Maximum value for ncpus is 16 and mpiprocs MUST be the same value as ncpus.
 ## If more than 16 cpus are required then select multiple chunks of 16
 #PBS -l select=1:ncpus=16:mpiprocs=16
-#PBS -q half_hour
+#PBS -q half_day
 ## {half,one}_hour, {half,one,two,five,ten}_day, gpu, debug
 #PBS -m n
 #PBS -M s.rasmussen@cranfield.ac.uk
@@ -37,9 +37,11 @@ export OMP_NUM_THREADS=${cpus}
 ## STEP 6:
 echo "================START================"
 echo "number of cpus = ${cpus}"
-echo "---ARTLESS--- add CPUBURN"
 # timeout 15m cpuburn
+tau_f90.sh -c tools.F90
+echo "./compileRun.sh -file=saxpy -O3"
 ./compileRun.sh -file=saxpy -O3
+echo "./compileRun.sh -file=saxpy -O0"
 ./compileRun.sh -file=saxpy -O0
 
 ## Tidy up the log directory
