@@ -6,7 +6,7 @@
 ## The Maximum value for ncpus is 16 and mpiprocs MUST be the same value as ncpus.
 ## If more than 16 cpus are required then select multiple chunks of 16
 #PBS -l select=1:ncpus=16:mpiprocs=16
-#PBS -q half_day
+#PBS -q half_hour
 ## {half,one}_hour, {half,one,two,five,ten}_day, gpu, debug
 #PBS -m n
 #PBS -M s.rasmussen@cranfield.ac.uk
@@ -34,15 +34,19 @@ export I_MPI_ADJUST_ALLREDUCE=5
 # module load intel
 module load tau
 export OMP_NUM_THREADS=${cpus}
+export TAU_OPTIONS='-optNoMPI -optPreProcess -optContinueBeforeOMP'
+export TAU_MAKEFILE=/apps/software/TAU/2.27-foss-2018a/x86_64/lib/Makefile.tau-papi-pdt-openmp-opari
 ## STEP 6:
 echo "================START================"
 echo "number of cpus = ${cpus}"
 # timeout 15m cpuburn
 tau_f90.sh -c tools.F90
-echo "./compileRun.sh -file=saxpy -O3"
-./compileRun.sh -file=saxpy -O3
-echo "./compileRun.sh -file=saxpy -O0"
-./compileRun.sh -file=saxpy -O0
+tau_f90.sh -c math/matrix_product.F90
+file=runMatrixVectorProduct
+echo "./compileRun.sh -file=${file} -O3"
+./compileRun.sh -file=${file} -O3
+echo "./compileRun.sh -file=${file} -O0"
+./compileRun.sh -file=${file} -O0
 
 ## Tidy up the log directory
 ## DO NOT CHANGE THE LINE BELOW
