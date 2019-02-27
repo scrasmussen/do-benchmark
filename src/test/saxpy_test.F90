@@ -18,7 +18,7 @@ program run_saxpy
      call random_number(X)
      call random_number(Y)
      call clearCache(count)
-     call saxpy(X,Y,a,n)
+     call saxpy_array_syntax(X,Y,a,n)
 
      call random_number(X)
      call random_number(Y)
