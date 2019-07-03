@@ -3,12 +3,10 @@ project(do-benchmark Fortran)
 
 add_subdirectory(src)
 
-# find_package(TAU OR SOMETHING)
-# configure_file(... COPYONLY)
-
-# ARTLESS TODO: make sure this is correct, how to update?
-# set Fortran_FLAGS
+# Set the up time to iterate
+set(N 100)
+set(LOOP 1)
 set(CMAKE_Fortran_FLAGS "-g -03")
-target_compile_definitions(saxpy.exe PRIVATE SETN=100 SETLOOP=1)
-# target_compile_definitions(saxpy.exe PRIVATE SETN=100 SETLOOP=1)
-# add_compile_definitions(-DSETN=100 -DSETLOOP=1)
+target_compile_definitions(saxpy.exe        PRIVATE SETN=${N} SETLOOP=${LOOP})
+target_compile_definitions(saxpyOMP.exe     PRIVATE SETN=${N} SETLOOP=${LOOP})
+target_compile_definitions(saxpyOpenACC.exe PRIVATE SETN=${N} SETLOOP=${LOOP})
