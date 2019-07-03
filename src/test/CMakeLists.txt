@@ -1,2 +1,6 @@
-add_executable (saxpy.exe saxpy_test.F90)
-target_link_libraries(saxpy.exe benchmark_tools)
+add_executable(saxpy.exe        runSaxpy.F90)
+add_executable(saxpyOMP.exe     runSaxpyOMP.F90)
+add_executable(saxpyOpenACC.exe runSaxpyOpenACC.F90)
+target_link_libraries(saxpy.exe        benchmark_saxpy benchmark_tools)
+target_link_libraries(saxpyOMP.exe     benchmark_saxpy benchmark_tools)
+target_link_libraries(saxpyOpenACC.exe benchmark_saxpy benchmark_tools)

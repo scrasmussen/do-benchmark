@@ -1,4 +1,4 @@
-program run_saxpy
+program run_saxpy_openacc
   use tools
   use saxpy
   use saxpy_omp
@@ -20,15 +20,15 @@ program run_saxpy
      ! saxpy
      call randomNumber(X,Y)
      call clearCache(count)
-     call saxpy_array_syntax(X,Y,a,n)
+     call saxpy_array_syntax_openacc(X,Y,a,n)
 
      call randomNumber(X,Y)
      call clearCache(count)
-     call saxpy_do(X,Y,a,n)
+     call saxpy_do_openacc(X,Y,a,n)
 
      call randomNumber(X,Y)
      call clearCache(count)
-     call saxpy_do_concurrent(X,Y,a,n)
+     call saxpy_do_concurrent_openacc(X,Y,a,n)
   end do
   print *, "===Fin==="
-end program run_saxpy
+end program run_saxpy_openacc
