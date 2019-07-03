@@ -14,4 +14,10 @@ contains
     end do
     deallocate(A)
   end subroutine clearCache
+
+  subroutine randomNumber(A,B)
+    real, dimension(*), intent(INOUT) :: A,B
+    call random_number(A)
+    call random_number(B)
+  end subroutine randomNumber
 end module tools
